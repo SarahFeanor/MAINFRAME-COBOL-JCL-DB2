@@ -1,6 +1,3 @@
-# MAINFRAME - JCL
-
-
 # ⚡ JCL
 
 - Referencias e Exemplos de Códigos em JCL
