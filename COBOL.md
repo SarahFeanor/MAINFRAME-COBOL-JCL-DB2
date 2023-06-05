@@ -140,42 +140,58 @@ DIVIDE A INTO B GIVING C REMAINDER D   A	 B	Inteiro(B/A)	Restante inteiro
      10 WS-FIELD-E PIC 9(9) COMP.
      10 WS-FIELD-F USAGE INDEX..
 ```
-Se ADD CORR WS-FIELD-2 TO WS-FIELD-1 for especificado, WS-FIELD-A e WS-FIELD-A, WS-FIELD-B e WS-FIELD-B e WS -CAMPO-E e WS-FIELD-E são considerados correspondentes e são somados. WS-FIELD-C e WS-FIELD-C não estão incluídos porque não são numéricos. WS-FIELD-D e WS-FIELD-D não estão incluídos porque WS-FIELD-D inclui uma cláusula REDEFINES em sua descrição de dados. WS-FIELD-F e WS-FIELD-F não estão incluídos porque são itens de dados de índice.
+> Se a instrução ADD CORR WS-FIELD-2 TO WS-FIELD-1 for especificada, ocorrerá uma soma entre os campos correspondentes. Os campos correspondentes são WS-FIELD-A e WS-FIELD-A, WS-FIELD-B e WS-FIELD-B, e WS-FIELD-E e WS-FIELD-E.
+
+> No entanto, alguns campos não são incluídos na soma. O campo WS-FIELD-C não é incluído porque não é um campo numérico. O campo WS-FIELD-D também não é incluído porque possui uma cláusula REDEFINES em sua descrição de dados, o que indica que ele está sendo redefinido e não é tratado como um campo separado para fins de soma.
+
+> Além disso, o campo WS-FIELD-F não é incluído porque é um item de dados de índice, o que significa que é usado para acessar ou identificar registros em uma estrutura de dados, mas não contém um valor numérico para ser somado.
+
+> Portanto, ao executar a instrução ADD CORR WS-FIELD-2 TO WS-FIELD-1, apenas os campos correspondentes que são numéricos e não possuem redefinições são considerados na soma. Os demais campos não são afetados pela operação de adição.
+
 
 ## 12. Declaração PERFORM simples
 ```COBOL
   PERFORM PARAGRAFO-X.
 ```
   
-A instrução PERFORM transfere o controle para o "PARAGRAFO-X", após a execução do parágrafo "PARAGRAFO-X", o controle retorna para a próxima instrução de PERFORM e continua a execução.
-Nota: A forma simples do PERFORM atua de forma muito semelhante à instrução GO TO, exceto que após a execução do controle de parágrafo ele retornará de onde foi chamado.
+- A instrução PERFORM transfere o controle para o "PARAGRAFO-X", após a execução do parágrafo "PARAGRAFO-X", o controle retorna para a próxima instrução de PERFORM e continua a execução.
+
+- Nota: A forma simples do PERFORM atua de forma muito semelhante à instrução GO TO, exceto que após a execução do controle de parágrafo ele retornará de onde foi chamado.
 
 ## 13. A declaração PERFORM composta
 ```COBOL   
    PERFORM PARAGRAFO-X UNTIL PARAGRAFO-Y
 ```
   
-"PARAGRAFO-X" e "PARAGRAFO-Y" são nomes de parágrafos. A execução da instrução PERFORM faz a transferências de controle para o primeiro parágrafo "PARAGRAFO-X". Ele executa todas as instruções do primeiro paragrafo "PARAGRAFO-X" e continua até executar também todas as instruções do ultimo parágrafo na declaração, no exemplo, é o "PARAGRAFO-Y" e após executar tudo no range entre esses dois parágrafos, o controle retorna para a próxima instrução executável após essa declaração PERFORM. Se houver quaisquer outros parágrafos entre "PARAGRAFO-X" e "PARAGRAFO-Y", todas aquelas instruções serão executadas.
+"PARAGRAFO-X" e "PARAGRAFO-Y" são nomes de parágrafos. 
+
+- A execução da instrução PERFORM faz a transferências de controle para o primeiro parágrafo "PARAGRAFO-X". Ele executa todas as instruções do primeiro paragrafo "PARAGRAFO-X" e continua até executar também todas as instruções do ultimo parágrafo na declaração, no exemplo, é o "PARAGRAFO-Y" e após executar tudo no range entre esses dois parágrafos, o controle retorna para a próxima instrução executável após essa declaração PERFORM. 
+
+Se houver quaisquer outros parágrafos entre "PARAGRAFO-X" e "PARAGRAFO-Y", todas aquelas instruções serão executadas.
 
 ## 14. Usando PERFORM com TIMES
 ```COBOL
   PERFORM PARAGRAFO-X UNTIL PARAGRAFO-Y 5 TIMES.
 ```
 
-Todas as instruções no escopo (tudo que houver) do "PARAGRAFO-X" até "PARAGRAFO-Y" serão executados 5 vezes. Após esse range ser executado 5 vezes (conforme esse exemplo), o controle então passa para a próxima instrução executável após a instrução PERFORM.
+- Todas as instruções no escopo (tudo que houver) do "PARAGRAFO-X" até "PARAGRAFO-Y" serão executados 5 vezes. Após esse range ser executado 5 vezes (conforme esse exemplo), o controle então passa para a próxima instrução executável após a instrução PERFORM.
 
 ## 15. A declaração PERFORM com VARYING
 ```COBOL
   PERFORM PARAGRAFO-X VARYING WS-A FROM 1 BY 1 UNTIL WS-A > 5
 ``` 
-Todas as instruções no parágrafo "PARAGRAFO-X" serão executadas até a codição associada a UNTIL for atendida (verdadeira). Para a primeira iteração, WS-A vale 1 (como é especificado após o FROM), para a segunda iteração, o valor WS-A aumenta em 1 (conforme especificado após a palavra-chave BY - é feito um incremento sequencia de 1 em 1) e será testado e caso a condição ainda não seja atendida, a execução se repete executando o conteúdo no "PARAGRAFO-X" e segue a incrementação em WS-A até que a condição seja satisfatóriamente atendida (verdadeira). Esse é uma condição simples de loop, o qual a condição mantém a execução do "PARAGRAFO-X" enquanto for falsa, incrementando 1 à variável WS-A e testando, repetindo esse processo continuamente, até a condiçao ser plemanete atendida (verdadeira - quiando Este loop continua até que a condição se torne verdadeira, ou seja, neste exemplo, quando WS-A for maior que 5.
+Todas as instruções no parágrafo "PARAGRAFO-X" serão executadas até a codição associada a UNTIL for atendida (verdadeira). 
+
+- Para a primeira iteração, WS-A vale 1 (como é especificado após o FROM), para a segunda iteração, o valor WS-A aumenta em 1 (conforme especificado após a palavra-chave BY - é feito um incremento sequencia de 1 em 1) e será testado e caso a condição ainda não seja atendida, a execução se repete executando o conteúdo no "PARAGRAFO-X" e segue a incrementação em WS-A até que a condição seja satisfatóriamente atendida (verdadeira). 
+
+- Esse é uma condição simples de loop, o qual a condição mantém a execução do "PARAGRAFO-X" enquanto for falsa, incrementando 1 à variável WS-A e testando, repetindo esse processo continuamente, até a condiçao ser plemanete atendida (verdadeira - quiando Este loop continua até que a condição se torne verdadeira, ou seja, neste exemplo, quando WS-A for maior que 5.
 
 ## 16. A declaração PERFORM com VARYING e AFTER
 ```COBOL
     PERFORM PARAGRAFO-X VARYING WS-A FROM 1 BY 1 UNTIL WS-A > 10
       AFTER WS-B FROM 1 BY 1 UNTIL WS-B > 5
  ``` 
-Neste exemplo, além de WS-A, o valor de WS-B também é alterado. Um exemplo típico de Matriz ou de Array. Para cada valor válido em WS-A, o valor de WS-B começa de 1 até que a condição de WS-B > 5 seja verdadeira. A execução da instrução PERFORM termina somente quando WS-A for > 10.
+- Neste exemplo, além de WS-A, o valor de WS-B também é alterado. Um exemplo típico de Matriz ou de Array. Para cada valor válido em WS-A, o valor de WS-B começa de 1 até que a condição de WS-B > 5 seja verdadeira. A execução da instrução PERFORM termina somente quando WS-A for > 10.
 
 ## 17. Instrução Condicional - IF (se) Simples
 ```COBOL
@@ -183,9 +199,9 @@ Neste exemplo, além de WS-A, o valor de WS-B também é alterado. Um exemplo t�
       {faça algo aqui, caso a condição acima seja atendida}
   [END-IF].
 ```  
-Se a condição for verdadeira, ele executará o conjunto de instruções escritas no bloco IF. Se a condição não for satisfeita, o controle será transferido para as próximas instruções após o término da instrução IF.
+- Se a condição for verdadeira, ele executará o conjunto de instruções escritas no bloco IF. Se a condição não for satisfeita, o controle será transferido para as próximas instruções após o término da instrução IF.
 
-END-IF é o terminador de escopo, que é opcional no programa. O ponto (.) pode ser definido na última instrução do bloco IF. Se não especificarmos o período, o terminador de escopo END-IF é obrigatório.
+- END-IF é o terminador de escopo, que é opcional no programa. O ponto (.) pode ser definido na última instrução do bloco IF. Se não especificarmos o período, o terminador de escopo END-IF é obrigatório.
 
 ## 18. Declaração Condicional ELSE (se não)
 ```COBOL    
@@ -196,7 +212,7 @@ END-IF é o terminador de escopo, que é opcional no programa. O ponto (.) pode 
     [END-IF].
 ```
 
-Em IF-ELSE, o bloco de instruções será executado se a condição especificada for verdadeira. Se a condição for falsa, o outro conjunto de instruções será executado, e esses conjuntos estarão sob o bloco ELSE.
+- Em IF-ELSE, o bloco de instruções será executado se a condição especificada for verdadeira. Se a condição for falsa, o outro conjunto de instruções será executado, e esses conjuntos estarão sob o bloco ELSE.
 
 ## 19. Instrução condicional IF aninhado
 ```COBOL
@@ -214,7 +230,7 @@ Em IF-ELSE, o bloco de instruções será executado se a condição especificada
         END-IF
     END-IF.
   ```
-Uma chamada de instrução IF aninhada é uma cadeia de instrução IF dentro de outra(s) instrução(ões) IF.
+- Uma chamada de instrução IF aninhada é uma cadeia de instrução IF dentro de outra(s) instrução(ões) IF.
 
 ## 20. Declaração EVALUATE simples
 ```COBOL
@@ -229,7 +245,7 @@ Uma chamada de instrução IF aninhada é uma cadeia de instrução IF dentro de
            DISPLAY 'Qualquer outro valor'
   END-EVALUATE
  ```
-Este exemplo avalia WS-DATA-TYPE-IND, se WS-DATA-TYPE-IND for 'A' é exibido 'Letra A', se WS-DATA-TYPE-IND for '1' exibe 'Numero 1', se WS-DATA-TYPE-IND for 'X' exibirá 'Letra X'. Se a variável WS-DATA-TYPE-IND não for 'A' ou '1' ou 'X', então exibe 'Qualquer outro valor'.
+- Este exemplo avalia WS-DATA-TYPE-IND, se WS-DATA-TYPE-IND for 'A' é exibido 'Letra A', se WS-DATA-TYPE-IND for '1' exibe 'Numero 1', se WS-DATA-TYPE-IND for 'X' exibirá 'Letra X'. Se a variável WS-DATA-TYPE-IND não for 'A' ou '1' ou 'X', então exibe 'Qualquer outro valor'.
 
 ## 21. A declaração EVALUATE com ALSO
 ```COBOL
@@ -242,9 +258,9 @@ Este exemplo avalia WS-DATA-TYPE-IND, se WS-DATA-TYPE-IND for 'A' é exibido 'Le
             MOVE 0 TO WS-TAX-IMP
     END-AVALUATE.
 ```  
-Este exemplo é um exemplo de tabela de decisão, calcula a taxa de imposto com base em renda, idade e sexo. A primeira cláusula WHEN satisfará se a condição de renda (>= 1.000 e < 50.000) é verdadeira, o sexo é 'M' e a idade está na faixa de 25 a 50, se for verdade, então a excuta a instrução MOVE e o controle sai de EVALUATE.
+- Este exemplo é um exemplo de tabela de decisão, calcula a taxa de imposto com base em renda, idade e sexo. A primeira cláusula WHEN satisfará se a condição de renda (>= 1.000 e < 50.000) é verdadeira, o sexo é 'M' e a idade está na faixa de 25 a 50, se for verdade, então a excuta a instrução MOVE e o controle sai de EVALUATE.
 
-Se a primeira condição WHEN se tornar falsa, então o controle vai para a segunda condição WHEN e verifica a condição, se é verdadeira ou falsa, se for verdadeira, ele executará a instrução MOVE após a segunda condição WHEN. Se a segunda condição WHEN for falsa, então o controle irá para a instrução MOVE codificada após o WHEN OTHER, aqui ele não verificará se é verdadeiro ou falso.
+- Se a primeira condição WHEN se tornar falsa, então o controle vai para a segunda condição WHEN e verifica a condição, se é verdadeira ou falsa, se for verdadeira, ele executará a instrução MOVE após a segunda condição WHEN. Se a segunda condição WHEN for falsa, então o controle irá para a instrução MOVE codificada após o WHEN OTHER, aqui ele não verificará se é verdadeiro ou falso.
 
 22. Declaração STRING
 ```COBOL
@@ -255,8 +271,11 @@ Se a primeira condição WHEN se tornar falsa, então o controle vai para a segu
  ```
  
 Nome do campo - Valor
+
 WS-NOME: SARAH
+
 WS-SOBRENOME: REZENDE
+
 WS-NOME-COMPLETO: SARAH REZENDE
 
 
@@ -270,8 +289,11 @@ WS-NOME-COMPLETO: SARAH REZENDE
 ```
   
 Nome do campo	| Valor
+
 WS-NOME-COMPLETO: SARAH REZENDE
+
 WS-NOME:	SARAH
+
 WS-SOBRENOME:	REZENDE
 
 
@@ -280,14 +302,18 @@ WS-SOBRENOME:	REZENDE
   INSPECT WS-STRING TALLYING WS-COUNT TO CHARACTER.
 ``` 
 Nome do campo	| Valor
+
 WS-STRING: SARAHREZENDE
+
 WS-COUNT	12
 
 ```COBOL
   INSPECT WS-STRING TALLYING WS-COUNT FOR ALL 'A'.
 ``` 
 Nome do campo	| Valor
+
 WS-STRING: SARAH REZENDE
+
 WS-COUNT:	2
 
 ## 25. Instrução INSPECT com opção REPLACING
@@ -296,7 +322,9 @@ WS-COUNT:	2
   INSPECT WS-STRING REPLACING ALL 'A' BY 'I'.
 ```
 Nome do campo	| Valor
+
 WS-STRING antes:	SARAH REZENDE
+
 WS-STRING depoiS: SIRIH REZENDE
 
 ## 26. Modificação de referência na declaração MOVE
@@ -305,12 +333,16 @@ WS-STRING depoiS: SIRIH REZENDE
 ```
   
 Nome do campo	| Valor
+
 WS-NOME-COMPLETO:	SARAH REZENDE
+
 WS-NOME: SARAH
 
 ```COBOL
   MOVE WS-CELULAR PARA WS-DDD(1:3)
 ```  
 Nome do campo	| Valor
+
 WS-CELULAR: 031997827424
+
 WS-DDD: 031
