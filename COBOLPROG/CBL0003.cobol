@@ -4,7 +4,7 @@
       *-----------------------
        IDENTIFICATION DIVISION.
       *-----------------------
-       PROGRAM-ID.    CBL0033
+       PROGRAM-ID.    CBL0003
        AUTHOR.        Otto B. Fun.
       *--------------------
        ENVIRONMENT DIVISION.
